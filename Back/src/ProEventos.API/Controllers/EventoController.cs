@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ProEventos.API.Data;
 using ProEventos.API.models;
 
 namespace ProEventos.API.Controllers
@@ -14,42 +15,23 @@ namespace ProEventos.API.Controllers
     {
         private string value = "Exemplo de";
 
-        public IEnumerable<Evento> _evento = new Evento[]
-            {
-                new Evento() {
-                    EventoId = 1,
-                    Local = "Centerplax, Caruaru",
-                    DataEvento = DateTime.Now.AddDays(2).ToString("dd/MM/yyyy"),
-                    Tema = "Filme:  Homem-Aranha: Sem Volta para Casa",
-                    QtdPessoas = 13,
-                    Lote = null,
-                    imagemUrl = null
-                },
-                new Evento() {
-                    EventoId = 2,
-                    Local = "Centerplax, Caruaru",
-                    DataEvento = "28/12/21 14:00:00",
-                    Tema = "Filme: Matrix Resurrections",
-                    QtdPessoas = 3,
-                    Lote = null,
-                    imagemUrl = null
-                }
-            };
+        private readonly DataContext _context;
 
-        public EventoController()
+        public EventoController(DataContext context)
         {
+            _context = context;
         }
 
         [HttpGet]
         public IEnumerable<Evento> Get()
         {
-            return _evento;
+            return _context.Eventos;
         }
 
         [HttpGet("{id}")]
         public IEnumerable<Evento> Get(int id)
         {
-            return _evento.Where(evento=>evento.EventoId == id);
+            yield return _context.Eventos.FirstOrDefault(evento => evento.EventoId == id);
         }
 
         [HttpPost]
