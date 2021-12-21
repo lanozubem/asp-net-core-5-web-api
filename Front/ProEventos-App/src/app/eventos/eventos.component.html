@@ -1,0 +1,15 @@
+<h1>Eventos</h1>
+
+<ul *ngFor="let evento of eventos">
+   
+        <div class="image">
+            <img src="{{ evento.imagemUrl }}" alt="">
+        </div>
+        <p><Strong>Local:</Strong> {{ evento.local }}</p>
+        <p><Strong>Data do evento:</Strong> {{ evento.data }}</p>
+        <p><Strong>Data:</Strong> {{ evento.dataEvento }}</p>
+        <p><Strong>Tema:</Strong> {{ evento.tema }}</p>
+        <p><Strong>Qtd Pessoas:</Strong> {{ evento.qtdPessoas }}</p>
+   
+    <hr>
+</ul>
