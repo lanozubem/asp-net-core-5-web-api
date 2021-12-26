@@ -8,7 +8,11 @@ import { EventosService } from '../eventos.service';
 })
 export class EventosComponent implements OnInit {
 
-  eventos: any;
+  public eventos: any = [];
+  public eventosFiltrados: any = [];
+
+  exibirImagem: boolean = true;
+  private _filtroLista: string = '';
 
   constructor(private eventosService: EventosService) { }
 
@@ -18,8 +22,35 @@ export class EventosComponent implements OnInit {
 
   getEventos() {
     this.eventosService.getEventos().subscribe(
-      response => this.eventos = response,
+      response => {
+        this.eventos = response;
+        this.eventosFiltrados = this.eventos;
+      },
       error => console.log(error)
     );
   }
+
+  expandirImagem() {
+    this.exibirImagem = !this.exibirImagem;
+  }
+
+  public get filtroLista(): string {
+    return this._filtroLista;
+  };
+
+  public set filtroLista(value: string) {
+    this._filtroLista = value;
+    this.eventosFiltrados = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
+  }
+
+  filtrarEventos(filtrarPor: string): any {
+    filtrarPor = filtrarPor.toLocaleLowerCase();
+    return this.eventos.filter(
+      (      evento: { tema: string; local: string; }) => { 
+        evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 || 
+        evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1;
+      }
+    )
+  }
+
 }

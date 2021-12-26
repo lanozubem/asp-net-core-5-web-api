@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
 })
 export class EventosService {
 
-  private api = " https://localhost:5001/api/evento";
+  private _api: string = " https://localhost:5001/api/evento";
 
   constructor(private http: HttpClient) { }
 
   getEventos(): Observable<any> {
-    return this.http.get<any>(this.api);
+    return this.http.get<any>(this._api);
   }
 }

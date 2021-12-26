@@ -1,15 +1,53 @@
-<h1>Eventos</h1>
+<h2>Eventos</h2>
+<hr>
 
-<ul *ngFor="let evento of eventos">
-   
-        <div class="image">
-            <img src="{{ evento.imagemUrl }}" alt="">
-        </div>
-        <p><Strong>Local:</Strong> {{ evento.local }}</p>
-        <p><Strong>Data do evento:</Strong> {{ evento.data }}</p>
-        <p><Strong>Data:</Strong> {{ evento.dataEvento }}</p>
-        <p><Strong>Tema:</Strong> {{ evento.tema }}</p>
-        <p><Strong>Qtd Pessoas:</Strong> {{ evento.qtdPessoas }}</p>
-   
-    <hr>
-</ul>
+<div action="" class="form-inline">
+    <div class="form-group mb-2">
+        <input 
+            type="search" 
+            class="form-control mr-2" 
+            placeholder="buscar" 
+            [(ngModel)]="filtroLista"
+        >
+    </div>
+</div>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                <button type="button" class="btn btn-outline-light btn-sm" (click)="expandirImagem()">
+                    {{ exibirImagem == true ? 'Mostrar' : 'Ocultar' }}
+                </button>
+            </th>
+            <th>#</th>
+            <th>Tema</th>
+            <th>Local</th>
+            <th>Data</th>
+            <th>Qtd Pessoas</th>
+            <th>Lote</th>
+            <th colspan="2 ">Opções</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let evento of eventosFiltrados">
+            <td>
+                <img src="/assets/{{ evento.imagemUrl }}" alt="" [collapse]="!exibirImagem" [isAnimated]="true">
+            </td>
+            <td>{{ evento.eventoId }}</td>
+            <td>{{ evento.tema }}</td>
+            <td>{{ evento.local }}</td>
+            <td>{{ evento.dataEvento }}</td>
+            <td>{{ evento.qtdPessoas }}</td>
+            <td>{{ evento.lote }}</td>
+            <td><button class="btn btn-warning">Editar</button></td>
+            <td><button class="btn btn-danger">Excluir</button></td>
+        </tr>
+    </tbody>
+    <tfoot *ngIf="!eventos || !eventos.length">
+        <tr>
+            <td colspan="8" class="text-center">
+                <h4>Nenhum evento encontrado!</h4>
+            </td>
+        </tr>
+    </tfoot>
+</table>
